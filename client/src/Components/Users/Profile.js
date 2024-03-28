@@ -20,7 +20,6 @@ export default function Profile() {
           const somevar = JSON.parse(JSON.stringify(decodedToken));
           console.log(somevar.id, "this is way out of line dummy")
           const user = await getAdmin(somevar.id);
-          console.log(user)
           setExtUser(user.data);
           setLoading(false);
         } catch (error) {

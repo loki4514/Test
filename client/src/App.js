@@ -20,12 +20,11 @@ function App() {
 
   useEffect(() => {
     const getUser = localStorage.getItem("user_token");
-    console.log("i have been summoned from navbar", getUser);
     if (getUser) {
       let decodedToken = jwtDecode(getUser);
       let somevar = JSON.parse(JSON.stringify(decodedToken));
       setExtUser(somevar);
-      console.log(somevar)
+      
       // Update user state only when the user logs in
     }
   }, []);

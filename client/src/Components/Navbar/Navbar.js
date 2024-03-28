@@ -28,27 +28,26 @@ export default function Navbar() {
         navigate('/auth')
     }
 
-    console.log("Component is rendering"); // Log before component renders
+     // Log before component renders
 
 
 
     useEffect(() => {
-        console.log("useEffect is getting mounted");
+        
         const getUser = localStorage.getItem("user_token");
-        console.log("Token from localStorage:", getUser); // Log retrieved token
+        // Log retrieved token
 
         if (getUser) {
             setUser(true);
             let decodedToken = jwtDecode(getUser);
             let somevar = JSON.parse(JSON.stringify(decodedToken));
             setExtUser(somevar);
-            console.log(somevar);
+            console.log(somevar)
         }
     }, [user]); // Empty dependency array
 
 
-    console.log("calling from navbar")
-    console.log("calling from navbar")
+   
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -99,7 +98,7 @@ export default function Navbar() {
                                 <button
                                         onClick={extUser?.role === 'user' ? () =>  navigate("/profilepage") : undefined}
                                     >
-                                        <a id="dropdownToggleButton" className="block px-4 py-2 text-sm text-gray-700 font-semibold" role="menuitem" tabIndex={-1} id="user-menu-item-0">Your Profile</a>
+                                        <a id="dropdownToggleButton" className="block px-4 py-2 text-sm text-gray-700 font-semibold" role="menuitem" tabIndex={-1}  id="user-menu-item-0">Your Profile</a>
                                     </button>
                                     <button
                                         onClick={logout}

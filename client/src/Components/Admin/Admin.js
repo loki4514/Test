@@ -33,7 +33,6 @@ export default function Admin() {
         try {
           const users = await getUsersAll();
           setInfo(users.data);
-          console.log(users.data);
         } catch (error) {
           console.error('Error fetching users:', error);
         }

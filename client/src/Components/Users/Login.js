@@ -46,7 +46,7 @@ export default function Login() {
                 toast.error(responseData.message);
             }
 
-            console.log(result)
+            
             navigate('/')
         } catch (error) {
             console.log("error dispatching", error)
@@ -68,10 +68,10 @@ export default function Login() {
         try {
             const response = await signInApi(user)
             const responseData = response.data
-            console.log(responseData)
+            
 
             if (responseData.success) {
-                console.log("i am gettinng called here")
+                
                 toast.success(responseData.message);
                 localStorage.setItem('user_token', responseData.token);
                 setTimeout(() => {
@@ -114,23 +114,13 @@ export default function Login() {
                                 <input type="password" name="password" value={user.password} onChange={change} id="password" placeholder="••••••••"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             </div>
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-start">
-                                    <div className="flex items-center h-5">
-                                        <input id="remember" aria-describedby="remember" type="checkbox"
-                                            className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300  dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required />
-                                    </div>
-                                    <div className="ml-3 text-sm">
-                                        <label className="text-black">Remember me</label>
-                                    </div>
-                                </div>
-                                <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>
-                            </div>
+                            
                             <div>
                                 <GoogleLogin
                                     clientId='282872334993-nd7f60uaf0hfnukni8q2b3eresn1v0r5.apps.googleusercontent.com'
                                     render={(renderProps) => (
                                         <button
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             style={{ marginTop: '15px' }}
                                             color='primary'
                                             fullWidth

@@ -27,7 +27,6 @@ export default function Home() {
         try {
           const users = await getUsers();
           setInfo(users.data);
-          console.log(users.data);
         } catch (error) {
           console.error('Error fetching users:', error);
         }

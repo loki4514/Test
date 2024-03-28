@@ -22,7 +22,6 @@ export default function AdminLogin() {
         try {
             const response = await signInAdmin(user)
             const responseData = response.data
-            console.log(responseData)
 
             if(responseData.success) {
                 console.log("i am gettinng called here")

@@ -21,7 +21,7 @@ export default function EditProfile() {
         confirm_password: "",
         account_view: "",
     });
-    console.log(userData)
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -34,7 +34,7 @@ export default function EditProfile() {
                     console.log(somevar.id)
                     const response = await getAdmin(somevar.id);
                     const user = response.data;
-                    console.log(user, "this is for user");
+                    
                     setUserData({
                         name: user.account_name,
                         phone_number: user.phone,
@@ -85,18 +85,27 @@ export default function EditProfile() {
         setUserData({ ...userData, photoType: e.target.value });
     };
 
-    console.log(userData)
+    function validatePassword(password) {
+        // Regular expression to match the password criteria
+        const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,15}$/;
+
+        return passwordRegex.test(password);
+    
+        
+    }
 
     const submit = async (e) => {
         e.preventDefault();
 
         try {
-            
-            if (userData.password !== userData.confirm_password) {
-                toast.error("Password not same");
-                
 
-            } else if (userData.phone_number === '' && userData.phone_number.length !== 10) {
+            if (userData.password && !validatePassword(userData.password)) {
+                toast.error("Password should between 8-15 atleast 1 numberic, alphabet, special character")
+            }
+            else if (userData.password !== userData.confirm_password) {
+                toast.error("Password not same")
+
+            } else if (userData.phone_number !== '' && userData.phone_number.length !== 10) {
                 toast.error("Phone number must be 10 digits");
             } else {
                 console.log(id,userData)
@@ -229,7 +238,7 @@ export default function EditProfile() {
                                         onChange={change}
                                         placeholder="91XXXXXX"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        placeholder="name@company.com"
+                
                                         
                                     />
                                 </div>
