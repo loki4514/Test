@@ -11,7 +11,7 @@ export default function EditProfile() {
     const [id,setId] = useState('')
 
     const [userData, setUserData] = useState({
-        photoType: 'upload',
+        photoType: '',
         name: "",
         photo: null,
         email: "",
@@ -31,6 +31,7 @@ export default function EditProfile() {
                     let decodedToken = jwtDecode(getUser);
                     const somevar = JSON.parse(JSON.stringify(decodedToken));
                     setId(somevar.id)
+                    console.log(somevar.id)
                     const response = await getAdmin(somevar.id);
                     const user = response.data;
                     console.log(user, "this is for user");
@@ -80,14 +81,11 @@ export default function EditProfile() {
     };
 
     // Function to handle dropdown change
-    const handleTypeChange = (event) => {
-        setUserData({
-            ...userData,
-            photoType: event.target.value, // Update photoType based on dropdown selection
-            photo: '', // Clear photo when user switches between upload and URL
-        });
+    const handleTypeChange = (e) => {
+        setUserData({ ...userData, photoType: e.target.value });
     };
 
+    console.log(userData)
 
     const submit = async (e) => {
         e.preventDefault();
@@ -96,7 +94,9 @@ export default function EditProfile() {
             
             if (userData.password !== userData.confirm_password) {
                 toast.error("Password not same");
-            } else if (userData.phone_number.length !== 10) {
+                
+
+            } else if (userData.phone_number === '' && userData.phone_number.length !== 10) {
                 toast.error("Phone number must be 10 digits");
             } else {
                 console.log(id,userData)
@@ -193,6 +193,7 @@ export default function EditProfile() {
                                         onChange={handleTypeChange}
                                         className="bg-gray-50 border pb-3 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     >
+                                        <option value="">Select file type</option>
                                         <option value="upload">Upload Image</option>
                                         <option value="url">Image URL</option>
                                     </select>

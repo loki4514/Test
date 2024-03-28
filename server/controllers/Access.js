@@ -16,7 +16,7 @@ export const signInControllers = async (req, res) => {
 
         if (!isPasswordCorrect) return res.json({ message: 'Invalid Password', success : false });
 
-        const token = jwt.sign({name: existingUser.account_name, email: existingUser.email, id: existingUser._id }, 'test', { expiresIn: '1d' });
+        const token = jwt.sign({name: existingUser.account_name, email: existingUser.email, id: existingUser._id, role : existingUser.roles }, 'test', { expiresIn: '1d' });
         console.log(token);
         return res.json({ token, message : "Login Successful", success : true });
     } catch (error) {
@@ -43,7 +43,7 @@ export const signUpControllers = async (req, res) => {
 
         const result = await User.create({ account_name: name, email:email, password: hashedPassword, phone : phone_number});
 
-        const token = jwt.sign({name: result.name, email: result.email, id: result._id   }, 'test', { expiresIn: '1d' });
+        const token = jwt.sign({name: result.name, email: result.email, id: result._id, role : 'user'}, 'test', { expiresIn: '1d' });
 
         return res.status(200).json({ token, message : "Account Created Successfully", success : true });
         console.log(token, 'is from backend of controllers/users');
@@ -53,6 +53,34 @@ export const signUpControllers = async (req, res) => {
         return res.status(500).json({ message: "Internal Server Error", success : false });
     }
 };
+
+export const googleControllers = async (req,res) => {
+
+    const {name, email, picture} = req.body
+    console.log(req.body, "altight then you are almost there")
+    try {
+
+        const existingUser = await User.findOne({email})
+
+        if (existingUser) {
+            const token = jwt.sign({name: existingUser.account_name, email: existingUser.email, id: existingUser._id, role : existingUser.roles }, 'test', { expiresIn: '1d' });
+            return res.status(200).json({ token, message : "Account Created Successfully", success : true });
+        } else {
+            const result = await User.create({ account_name: name, email:email, photo : picture});
+            const token = jwt.sign({name: result.name, email: result.email, id: result._id, role : 'user'}, 'test', { expiresIn: '1d' });
+
+            return res.status(200).json({ token, message : "Account Created Successfully", success : true });
+
+        }
+
+
+
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal Server Error", success : false });
+    }
+}
 
 export const signInAdminControllers = async (req, res) => {
     const { email, password } = req.body;
@@ -73,7 +101,6 @@ export const signInAdminControllers = async (req, res) => {
                 const token = jwt.sign({name: 'Admin 1', email: process.env.admin_user, role : 'admin' }, 'test', { expiresIn: '1d' });
                 return res.json({ token, message : "Admin Login Successful", success : true });
             }
-
         }
     } catch (error) {
         console.error(error);

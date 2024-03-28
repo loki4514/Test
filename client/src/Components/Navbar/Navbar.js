@@ -6,8 +6,8 @@ import { jwtDecode } from "jwt-decode"
 
 export default function Navbar() {
     const navigate = useNavigate()
-    const [user, setUser] = useState(true)
-    const [extUser, setExtUser] = useState()
+    const [user, setUser] = useState(false)
+    const [extUser, setExtUser] = useState(null)
     const [menu, setMenu] = useState(false)
 
     const [mounted, setMounted] = useState(false);
@@ -69,7 +69,7 @@ export default function Navbar() {
                     <div className="relative flex h-16 items-center sm:justify-between">
                     <button
                             component={Link} to="/"
-                            onClick={() => navigate("/")}
+                            onClick={extUser?.role === 'user' ? () => navigate("/") : undefined}
                         >
                             <h1 className="sm:pr-5 font-extrabold text-3xl font-mono mb-2 sm:mb-0">MEDIA APP</h1>
                         </button>
@@ -82,7 +82,7 @@ export default function Navbar() {
                             {/* </div> */}
                         </div>
                         <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                            {user ? (<div className="relative ml-3">
+                            {extUser ? (<div className="relative ml-3">
                                 <div>
                                     <button type="button" id="dropdownToggleButton" data-dropdown-toggle="dropdownToggle"
                                         className={`relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2   ${menu ? "focus:ring-white focus:ring-offset-2" : "focus:ring-offset-gray-800"} `}
@@ -97,7 +97,7 @@ export default function Navbar() {
                                 </div>
                                 {menu && (<div id="dropdownToggleButton" data-dropdown-toggle="dropdownToggle" className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex={-1}>
                                 <button
-                                        onClick={() => navigate("/profilepage")}
+                                        onClick={extUser?.role === 'user' ? () =>  navigate("/profilepage") : undefined}
                                     >
                                         <a id="dropdownToggleButton" className="block px-4 py-2 text-sm text-gray-700 font-semibold" role="menuitem" tabIndex={-1} id="user-menu-item-0">Your Profile</a>
                                     </button>
@@ -116,7 +116,6 @@ export default function Navbar() {
                     </div>
                 </div>
             </nav>
-
             <div className="container mx-auto px-10 mb-8 bg-gray-300 ">
                 <title>Media App</title>
                 <link rel="icon" href="favion.ico" />

@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken'
 
 const authMiddleware1 = async (req,res,next) => {
     try {
-        console.log(req.headers.authorization,"the request hoioiuterietruithihk oioietoii headers")
+        
         const token = req.headers.authorization.split(" ")[1];
         const isCustomAuth = token.length < 500
 
@@ -15,7 +15,7 @@ const authMiddleware1 = async (req,res,next) => {
         let decodedData;
 
         if (token && isCustomAuth) {
-            console.log("i'm insdie the token of iscustomauth")
+            
             // this for jwt token 
             decodedData = jwt.verify(token,'test')
             req.userId = decodedData?.email

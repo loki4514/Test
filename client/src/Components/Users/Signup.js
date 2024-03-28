@@ -1,10 +1,53 @@
 import React, { useState } from 'react'
 import { Link,useNavigate } from 'react-router-dom'
 import toast, { Toaster } from "react-hot-toast";
-import { signUpAPi } from '../../api';
+import { signUpAPi,googleauth } from '../../api';
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode";
 
 
 export default function Signup() {
+
+    const googleSucess = async (res) => {
+
+
+
+        try {
+            console.log(res)
+            const token = res.credential
+            const result = jwtDecode(token)
+            const response = await googleauth(result)
+            const responseData = response.data
+            console.log(responseData)
+
+            if (responseData.success) {
+                console.log("i am gettinng called here")
+                toast.success(responseData.message);
+                localStorage.setItem('user_token', responseData.token);
+                setTimeout(() => {
+                    navigate('/')
+                }, 1500)
+            } else {
+                console.log("getting called from else block")
+                toast.error(responseData.message);
+            }
+
+            console.log(result)
+            navigate('/')
+        } catch (error) {
+            console.log("error dispatching", error)
+
+        }
+
+
+    }
+    const googleFailure = (error) => {
+        console.error('Sign-in failed:', error);
+
+
+    }
+
+
     const navigate = useNavigate()
     const [user,setUser] = useState({
         name : '',
@@ -103,6 +146,26 @@ export default function Signup() {
                                     <input type="password" name='confirm_password' value={user.confirm_password} id="password" onChange={change}  placeholder="••••••••" 
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                                 </div>
+                                <div>
+                                <GoogleLogin
+                                    clientId='282872334993-nd7f60uaf0hfnukni8q2b3eresn1v0r5.apps.googleusercontent.com'
+                                    render={(renderProps) => (
+                                        <button
+                                            style={{ marginTop: '15px' }}
+                                            color='primary'
+                                            fullWidth
+                                            onClick={renderProps.onClick}
+                                            disabled={renderProps.disabled}
+                                            variant='contained'
+
+                                        >Google Signup</button>
+                                    )}
+                                    onSuccess={googleSucess}
+                                    onFailure={googleFailure}
+                                    cookiePolicy='single_host_origin'
+                                    plugin_name='dont work'
+                                />
+                            </div>
                                 <button type="submit" className="bg-transparent block mx-auto font-bold text-center hover:bg-gray-500 text-black-700  hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">Register</button>
                                 <p className="text-center">
                                     Already have an account yet? 
@@ -110,6 +173,7 @@ export default function Signup() {
                                     <Link to='/auth'>Sign In</Link>
                                 </div>
                                 </p>
+
                                     
                             </form>
                         </div>

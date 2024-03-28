@@ -5,11 +5,11 @@ import User from '../models/User.js'
 
 
 export const viewControllers = async (req, res) => {
-    const { id  } = req.query; // Access email from query parameters
+    const { id  } = req.params; // Access email from query parameters
     console.log(id, "this is the email from query parameters");
 
     try {
-        const user = await User.findOne({ id });
+        const user = await User.findById(id);
         // console.log(user)
         return res.json(user);
 
@@ -20,11 +20,13 @@ export const viewControllers = async (req, res) => {
 }; 
 
 export const updateControllers = async (req, res) => {
-    const { name, bio, phone, email,photo, password, account_view } = req.body;
+    const { name, bio, phone_number, email,photo, password, account_view } = req.body;
     const { id } = req.params;
 
+    console.log
+
     console.log(id,"mit bor how are you")
-    console.log(req.body)
+    console.log(req.body,"this is from the body of req")
 
     try {
         // Find the existing user by ID
@@ -42,10 +44,12 @@ export const updateControllers = async (req, res) => {
             const emailExists = await User.findOne({ email });
             if (emailExists) {
                 return res.json({ message: "Email already exists", success: false });
+            }else {
+                existingUser.email = email
             }
-        } else if (phone && existingUser.phone !== phone) { // Check if phone number is being changed
+        } else if (phone_number && existingUser.phone !== phone_number) { // Check if phone number is being changed
             // Check if the new phone number already exists in the database
-            const phoneExists = await User.findOne({ phone });
+            const phoneExists = await User.findOne({ phone_number });
             if (phoneExists) {
                 return res.json({ message: "Phone number already exists", success: false });
             }
@@ -54,7 +58,7 @@ export const updateControllers = async (req, res) => {
         // Update user details if no conflicts found
         if (name) existingUser.account_name = name;
         if (bio) existingUser.bio = bio;
-        if (phone) existingUser.phone = phone;
+        if (phone_number) existingUser.phone = phone_number;
         if (email) existingUser.email = email;
         if (photo) existingUser.photo = photo
         if (account_view) existingUser.account_view = account_view;
@@ -70,7 +74,7 @@ export const updateControllers = async (req, res) => {
 
         // Return success response
 
-        const token = jwt.sign({name: existingUser.account_name, img : existingUser.photo, email: existingUser.email, id: existingUser._id }, 'test', { expiresIn: '1d' });
+        const token = jwt.sign({name: existingUser.account_name, role: existingUser.roles, email: existingUser.email, id: existingUser._id }, 'test', { expiresIn: '1d' });
         console.log(token);
         return res.json({ token, message : "profile Update Successful", success : true });
 

@@ -5,7 +5,7 @@ import authMiddleware1 from '../middleware/adminAuth.js';
 const router = express.Router();
 
 
-router.get('/view',authMiddleware, viewControllers)
+router.get('/view/:id',authMiddleware, viewControllers)
 router.patch('/:id/update',authMiddleware,updateControllers)
 router.get('/users',authMiddleware,getUserControllers)
 router.get('/usersall', authMiddleware1,getUserAllControllers)

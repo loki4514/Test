@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 const authMiddleware = async (req, res, next) => {
-    console.log(req.headers.authorization, "this is not at all possible dummy")
+    
     try {
         const token = req.headers.authorization.split(" ")[1];
         const isCustomAuth = token.length < 500;
@@ -14,12 +14,14 @@ const authMiddleware = async (req, res, next) => {
             decodedData = jwt.verify(token, 'test');
             req.userId = decodedData?.id;
             req.role = decodedData?.role; // Set user role
-            console.log(req.role, "somewhere in the middle of the jungle dummy")
+            
         } else {
             decodedData = jwt.decode(token);
             req.userId = decodedData?.id;
         }
-        
+        if (req.role !== 'user') {
+            return res.status(403).json({ message: 'Forbidden: Admin access required' });
+        }
 
         next();
     } catch (error) {
