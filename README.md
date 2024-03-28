@@ -29,8 +29,9 @@ This project aims to enhance an existing backend API for an authentication syste
 
 1. Clone the repository: `git clone https://github.com/loki4514/Test` or fork the directory.
    It's better to make split screen in your terminal
-3. Navigate to the project directory of Client Side: `cd client `
-4. Install dependencies: `npm install`
+2. Navigate to the project directory of Client Side: `cd client `
+3. Install dependencies: `npm install`
+4. .env file where to declare all the database and more.
 5. Navigate to the project directory of Server Side: `cd server `
 6. Install dependencies: `npm install`
 7. To run project: `npm start` on client and server terminal
@@ -43,6 +44,19 @@ This project aims to enhance an existing backend API for an authentication syste
 - MongoDB (or any preferred database)
 - GoogleOuth (for authentication)
 - JWT (JSON Web Tokens) for token-based authentication
+
+  ## Sample ScreenShot
+  ![Screenshot (339)](https://github.com/loki4514/Test/assets/80893814/87a2f38b-bb3e-45dc-aaa5-3564b146f03d)
+
+  ![Screenshot (337)](https://github.com/loki4514/Test/assets/80893814/eabceb0a-faf4-49d8-ae30-e35f6a1a3ca5)
+  from above image no private users are displayed
+
+  ![Screenshot (338)](https://github.com/loki4514/Test/assets/80893814/060e5459-9928-4f1a-b0c5-d19a83021507)
+
+
+  ![Screenshot (341)](https://github.com/loki4514/Test/assets/80893814/f034a110-4b98-48fa-bc1a-d18fad88cd93)
+  Admin profiles where they can see all users profile.
+
 
 
 ## License
